@@ -8,5 +8,12 @@ canvas.width = 1024 // this allows us to have a screen size that should
 canvas.height = 576
 
 c.fillStyle= 'white'
-c.fillRect(0, 0, canvas.width, canvas.height)
+c.fillRect(0, 0, canvas.width, canvas.height)// this allows us to display a canvas onto our screen
 
+const image = new Image()
+image.src = './img/FirstPokemonIsland.png'
+
+
+image.onload = () => {
+    c.drawImage(image, 0, 0)
+}
