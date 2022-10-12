@@ -3,12 +3,41 @@ const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d')// this allows us to access a 2d animation API so we can
 // do some cool 2d stuff
 
+
 canvas.width = 1024 // this allows us to have a screen size that should 
 //fit most screens with a good aspect ratio
 canvas.height = 576
 
-c.fillStyle= 'white'
-c.fillRect(0, 0, canvas.width, canvas.height)// this allows us to display a canvas onto our screen
+const collisionsMap = []
+for (let i = 0; i < collisions.length; i +=70) {// this function allows us to see the collisions in a row of our game map
+    collisionsMap.push(collisions.slice(i, 70 + i))
+
+}
+
+class Boundary {
+    constructor({position}) {
+        this.position = position
+        this.width = 48
+        this.height = 48
+    }
+    draw() {
+        c.fillStyle = 'red'
+        c.fillRect(this.position.x, this.position.y, this.width,this.height)
+    }
+}
+
+const boundaries = []
+collisionsMap.forEach((row, i) => {
+    row.forEach((Symbol, j) => {
+        boundaries.push(
+            new Boundary({
+                position: {
+                    x: 0,
+                    y: 0
+        }
+    }))
+    })
+})
 
 const image = new Image()
 image.src = './img/FirstPokemonIsland.png'
@@ -96,7 +125,7 @@ window.addEventListener('keydown', (e) =>{
     }
 })
 
-Let lastKey = ''
+let lastKey = ''
 window.addEventListener('keyup', (e) =>{
     switch (e.key) {
         case 'w':
