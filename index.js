@@ -13,8 +13,10 @@ for (let i = 0; i < collisions.length; i +=70) {// this function allows us to se
     collisionsMap.push(collisions.slice(i, 70 + i))
 
 }
-
+console.log('heylo');
 class Boundary {
+    static width = 48
+    static height = 48
     constructor({position}) {
         this.position = position
         this.width = 48
@@ -27,16 +29,23 @@ class Boundary {
 }
 
 const boundaries = []
+
+const offset = { // were going to use offset to make sure we can implement our boundaries to be active
+    x: -400,
+    y: -575
+}
+
 collisionsMap.forEach((row, i) => {
     row.forEach((Symbol, j) => {
-        boundaries.push(
-            new Boundary({
-                position: {
-                    x: 0,
-                    y: 0
-        }
-    }))
-    })
+        if (Symbol === 1025)
+            boundaries.push(
+                new Boundary({
+                    position: {
+                        x: j*Boundary.width + offset.x,
+                        y: i*Boundary.height + offset.y
+            }
+        }))
+        })
 })
 
 const image = new Image()
@@ -59,10 +68,12 @@ class Sprite {
     }
 }
 
+
+
 const background = new Sprite({
     position: {
-        x: -400,
-        y: -575
+        x: offset.x,
+        y: offset.y
     },
     image: image // the second image is representing our initial const image
 })
@@ -83,11 +94,22 @@ const keys = {
     }
 }
 
+const testBoundary = new Boundary({
+    position: {
+        x: 400,
+        y: 400
+    }
+})
 
+const movables = [background, testBoundary]
 // Our animation function allows us to render the page continuously until we tell it to stop
 function animate() {
     window.requestAnimationFrame(animate)
     background.draw()
+    // boundaries.forEach(boundary => {
+    //     boundary.draw()
+    // })
+testBoundary.draw()
     c.drawImage(
         playerImage, 
         0,
@@ -99,10 +121,22 @@ function animate() {
         playerImage.width / 4,
         playerImage.height
         )// this allows us to load our player in the game AFTER the location
-        if (keys.w.pressed && lastKey ==='w') background.position.y += 3// finally our player can move up
-        else if (keys.a.pressed && lastKey ==='a') background.position.x += 3
-        else if (keys.s.pressed && lastKey ==='s') background.position.y -= 3
-        else if (keys.d.pressed && lastKey ==='d') background.position.x -= 3
+        if (keys.w.pressed && lastKey ==='w') {
+            movables.forEach((movable) => {
+                movables.position.y += 3})
+            }// finally our player can move up
+        else if (keys.a.pressed && lastKey ==='a') {
+            movables.forEach((movable) => {
+                movables.position.x += 3})
+            }
+        else if (keys.s.pressed && lastKey ==='s') {
+            movables.forEach((movable) => {
+                movables.position.y -= 3})
+            }
+        else if (keys.d.pressed && lastKey ==='d') {
+            movables.forEach((movable) => {
+                movables.position.x -= 3})
+            }
 }// the '&& lastKey' part helps us shift from moving one direction to another while holding both keys down
 animate()
 
